@@ -6,6 +6,7 @@ export { default as enGB } from './en_GB';
 export { default as enUS } from './en_US';
 export { default as esAR } from './es_AR';
 export { default as esES } from './es_ES';
+export { default as frFR } from './fr_FR';
 export { default as fiFI } from './fi_FI';
 export { default as itIT } from './it_IT';
 export { default as koKR } from './ko_KR';

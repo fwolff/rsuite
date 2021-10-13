@@ -728,7 +728,31 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           ref={targetRef}
           appearance={appearance}
           input
-          inputMask={DateUtils.getDateMask(rangeFormatStr)}
+          inputMask={[
+            /[0-3]/,
+            /\d/,
+            '/',
+            /[0-1]/,
+            /\d/,
+            '/',
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            ' ',
+            '~',
+            ' ',
+            /[0-3]/,
+            /\d/,
+            '/',
+            /[0-1]/,
+            /\d/,
+            '/',
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/
+          ]}
           inputValue={value ? (getDisplayString(value, true) as string) : ''}
           inputPlaceholder={
             typeof placeholder === 'string' && placeholder ? placeholder : rangeFormatStr

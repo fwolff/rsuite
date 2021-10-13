@@ -182,6 +182,7 @@ const PickerToggle: RsRefForwardingComponent<
     >
       <MaskedInput
         mask={inputMask}
+        keepCharPositions={true}
         value={Array.isArray(inputValue) ? inputValue.toString() : inputValue}
         onBlur={handleInputBlur}
         onFocus={onInputFocus}
