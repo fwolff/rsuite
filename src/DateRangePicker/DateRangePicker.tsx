@@ -735,7 +735,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
             /[0-1]/,
             /\d/,
             '/',
-            /\d/,
+            /[1-2]/,
             /\d/,
             /\d/,
             /\d/,
@@ -748,7 +748,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
             /[0-1]/,
             /\d/,
             '/',
-            /\d/,
+            /[1-2]/,
             /\d/,
             /\d/,
             /\d/
