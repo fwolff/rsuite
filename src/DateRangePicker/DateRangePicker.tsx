@@ -80,6 +80,9 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
   /** Disabled date */
   disabledDate?: DisabledDateFunction;
 
+  minInputDate?: Date;
+  maxInputDate?: Date;
+
   /** Called when the option is selected */
   onSelect?: (date: Date, event?: React.SyntheticEvent<HTMLElement>) => void;
 
@@ -119,6 +122,20 @@ export interface DateRangePicker extends PickerComponent<DateRangePickerProps> {
   combine?: (...args: any) => DisabledDateFunction;
 }
 
+function isAfterDay(date1: Date, date2: Date): boolean {
+  return DateUtils.isAfter(
+    new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()),
+    new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
+  );
+}
+
+function isBeforeDay(date1: Date, date2: Date): boolean {
+  return DateUtils.isBefore(
+    new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()),
+    new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
+  );
+}
+
 const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
   const {
     as: Component = 'div',
@@ -131,6 +148,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     defaultValue,
     disabled,
     disabledDate: disabledDateProp,
+    minInputDate,
+    maxInputDate,
     format: formatStr = 'yyyy-MM-dd',
     hoverRange,
     isoWeek,
@@ -504,19 +523,30 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         return;
       }
 
-      const startDate = parseDate(rangeValue[0], formatStr);
-      const endDate = parseDate(rangeValue[1], formatStr);
-      const selectValue = [startDate, endDate] as ValueType;
+      let startDate = parseDate(rangeValue[0], formatStr);
+      let endDate = parseDate(rangeValue[1], formatStr);
 
       if (!DateUtils.isValid(startDate) || !DateUtils.isValid(endDate)) {
         setInputState('Error');
         return;
       }
 
-      if (disabledDate(startDate, selectValue, true, DATERANGE_DISABLED_TARGET.CALENDAR)) {
-        setInputState('Error');
-        return;
+      if (minInputDate) {
+        if (isBeforeDay(startDate, minInputDate)) startDate = minInputDate;
+        if (isBeforeDay(endDate, minInputDate)) endDate = minInputDate;
       }
+      if (maxInputDate) {
+        if (isAfterDay(startDate, maxInputDate)) startDate = maxInputDate;
+        if (isAfterDay(endDate, maxInputDate)) endDate = maxInputDate;
+      }
+
+      if (isAfterDay(startDate, endDate)) {
+        const date = startDate;
+        startDate = endDate;
+        endDate = date;
+      }
+
+      const selectValue = [startDate, endDate] as ValueType;
 
       setHoverValue(selectValue);
       setSelectValue(selectValue);
