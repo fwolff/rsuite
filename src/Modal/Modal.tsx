@@ -147,6 +147,10 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
     (node?: Element | Text) => {
       onEntering?.(node);
       onChangeBodyStyles(true);
+      if (node) {
+        (node as HTMLElement).tabIndex = -1;
+        (node as HTMLElement).focus();
+      }
     },
     [onChangeBodyStyles, onEntering]
   );
