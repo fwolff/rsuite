@@ -418,7 +418,15 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
       setHoverValue(nextSelectValue);
       setSelectValue(nextSelectValue);
-      updateCalendarDate(nextSelectValue);
+      if (nextSelectValue.length === 1) {
+        setCalendarDate([
+          nextSelectValue[0],
+          calendarDate?.[1] ?? DateUtils.addMonths(nextSelectValue[0], 1)
+        ]);
+      } else {
+        updateCalendarDate(nextSelectValue);
+      }
+
       onSelect?.(date, event);
       hasDoneSelect.current = !hasDoneSelect.current;
     },
